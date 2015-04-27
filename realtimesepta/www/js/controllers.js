@@ -76,8 +76,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlannerController', function($scope, $ionicLoading) {
- 
-
-        //Put your code here for planner stuff
- 
+     $.getJSON("http://www3.septa.org/hackathon/TrainView/", function(data) {
+            console.log(data); // use data as a generic object 
+      });
 });
