@@ -106,17 +106,27 @@ angular.module('starter.controllers', [])
 		document.getElementById("lat").innerHTML = position.coords.latitude;
 		document.getElementById("lon").innerHTML = position.coords.longitude;
 		
-		$.getJSON( "http://www3.septa.org/hackathon/locations/get_locations.php?lon="+position.coords.longitude+"&lat="+position.coords.latitude+"&callback=?", function( data ) {
-	  	var items = [];
-	  	$.each(data, function( location_id, location_obj) {
-	  		console.log(location_obj.location_name);
-	  		document.getElementById("locations").innerHTML = document.getElementById("locations").innerHTML + "<br />"+location_obj.location_name;
-			items.push("ID: "+location_obj.location_id+", name: "+location_obj.location_name+", lat: "+location_obj.location_lat+", lon: "+location_obj.location_lon+", distance: "+location_obj.distance+", location_type: "+location_obj.location_type+", extra_data: "+location_obj.location_data);
-		});
+		getYourRailStation(position);
 	 
-		//console.log(items);
-		});
+		
 	};
+	var radius = 20;
+	
+	function getYourRailStation(position) {
+		$.getJSON( "http://www3.septa.org/hackathon/locations/get_locations.php?lon="+position.coords.longitude+"&lat="+position.coords.latitude+"&type=rail_stations&radius="+radius+"&callback=?", function( data ) {
+			var closest_station = data[0].location_name;
+			$("#next_train_header span").html(closest_station);
+			
+			$.getJSON( "http://www3.septa.org/hackathon/Arrivals/"+closest_station+"/5?callback=?", function( data ) {
+			  	$.each(data, function(obj) {
+			  		//document.getElementById("locations").innerHTML = document.getElementById("locations").innerHTML + "<br />"+"Distance: "+location_obj.distance+", name: "+location_obj.location_name;
+			  		console.log("HI");
+				});
+			});
+			
+		});
+
+	}
 
 	function onError(error) {
 	    alert('You got a geolocation error tho: '    + error.code    + '\n' +
