@@ -100,11 +100,14 @@ angular.module('starter.controllers', [])
 
 .controller('PlannerController', function($scope, $ionicLoading) {
 
-     $.getJSON("http://www3.septa.org/hackathon/TrainView/", function(data) {
-            console.log(data); // use data as a generic object 
-      });
+    $.getJSON("http://www3.septa.org/hackathon/TrainView/", function(data) {
+    	console.log(data); // use data as a generic object 
+    });
 
-        //Put your code here for planner stuff
+	//Put your code here for planner stuff
+	$('#plan').click(function(){
+    	alert( "Destination: " + $( "#destination option:selected" ).text());
+	});
 
 })
 
