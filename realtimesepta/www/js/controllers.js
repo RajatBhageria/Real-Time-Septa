@@ -79,4 +79,32 @@ angular.module('starter.controllers', [])
      $.getJSON("http://www3.septa.org/hackathon/TrainView/", function(data) {
             console.log(data); // use data as a generic object 
       });
+ 
+
+        //Put your code here for planner stuff
+ 
+})
+
+.controller('NextTrainController', function($scope, $ionicLoading) {
+ 
+	var onSuccess = function(position) {
+		document.getElementById("lat").innerHTML = position.coords.latitude;
+		document.getElementById("lon").innerHTML = position.coords.longitude;
+	};
+
+	function onError(error) {
+	    alert('You got a geolocation error tho: '    + error.code    + '\n' +
+	          'message: ' + error.message + '\n');
+	}
+	
+	navigator.geolocation.getCurrentPosition(onSuccess, onError);
+      
+	 /* $.getJSON( "http://www3.septa.org/hackathon/locations/get_locations.php?lon="+position.coords.longitude+"&lat="+position.coords.latitude+"&callback=?", function( data ) {
+	  	var items = [];
+	  	$.each(data, function( key, val ) {
+			items.push("ID: "+key+", name: "+val+", startDate: "+startDate+", endDate: "+endDate+", address1: "+adress1+", address2: "+address2+", city: "+city+", state: "+state+", zip: "+zip+", hours: "+hours+", loc_name: "+location+", status: "+status+", phon: "+phon );
+			});
+	 
+		//console.log(items);
+	});*/
 });
