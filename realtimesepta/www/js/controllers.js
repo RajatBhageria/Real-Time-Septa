@@ -95,6 +95,38 @@ angular.module('starter.controllers', [])
  
         $scope.map = map;
 
+
+       //Update the location of the individual trains 
+       var car; 
+       var x = function() {$.getJSON("http://www3.septa.org/hackathon/TrainView?callback=?", function(data) {
+            console.log(data); // use data as a generic object 
+            $.each(data, function(id, obj) {
+              var lat = obj.lat;
+              var lon = obj.lon;
+              var trainno = obj.trainno; 
+              console.log("lat: " + lat + ";" + "lon: " + lon);
+              
+              var pic = 'https://cdn3.iconfinder.com/data/icons/vehicles-and-transportation-icon-set/434/locomotive-simple-black-icon-512.png';
+              car = new google.maps.Marker({
+                position: new google.maps.LatLng(lat, lon),
+                map: map,
+                title: trainno,
+                //icon: pic
+              }); 
+               var delay=1000;//1 seconds
+                setTimeout(function(){
+                  car.setMap(null);
+                  setAllMap(null);
+                }, delay); 
+            });
+        });
+
+      }
+
+      setInterval(x, 1000); 
+
+
+
  
 })
 
