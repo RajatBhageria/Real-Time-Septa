@@ -60,34 +60,17 @@ angular.module('starter.controllers', [])
         };
  
         var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-		
-		var regLayer = new google.maps.KmlLayer({
-    		url: 'http://www.chanmatt.me/regionalrail.kml'
-  		});
-  		regLayer.setMap(map);
-		
-		var bsllayer = new google.maps.KmlLayer({
-    		url: 'http://www.chanmatt.me/bsl.kml'
-  		});
-  		bsllayer.setMap(map);
-		
-		var mfllayer = new google.maps.KmlLayer({
-    		url: 'http://www.chanmatt.me/mfl.kml'
-  		});
-  		mfllayer.setMap(map);
  
         navigator.geolocation.getCurrentPosition(function(pos) {
             map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-			map.setZoom(16);
             var myLocation = new google.maps.Marker({
                 position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
                 map: map,
                 title: "My Location"
             });
         });
-		
+ 
         $scope.map = map;
-		
 
  
 })
@@ -95,10 +78,14 @@ angular.module('starter.controllers', [])
 .controller('PlannerController', function($scope, $ionicLoading) {
       
       var x = function() {$.getJSON("http://www3.septa.org/hackathon/TrainView?callback=?", function(data) {
-            //console.log(data); // use data as a generic object 
-            var json = JSON.parse(data);
-            console.log(json.service);
-        });}
+            console.log(data); // use data as a generic object 
+            $.each(data, function(id, obj) {
+              var lat = obj.lat;
+              var lon = obj.lon;
+              var trainno = obj.trainno; 
+            });
+        });
+      }
       setInterval(x, 1000); 
     
 })
@@ -109,27 +96,16 @@ angular.module('starter.controllers', [])
 		document.getElementById("lat").innerHTML = position.coords.latitude;
 		document.getElementById("lon").innerHTML = position.coords.longitude;
 		
-		getYourRailStation(position);
-	 
-		
-	};
-	var radius = 20;
-	
-	function getYourRailStation(position) {
-		$.getJSON( "http://www3.septa.org/hackathon/locations/get_locations.php?lon="+position.coords.longitude+"&lat="+position.coords.latitude+"&type=rail_stations&radius="+radius+"&callback=?", function( data ) {
-			var closest_station = data[0].location_name;
-			$("#next_train_header span").html(closest_station);
-			
-			$.getJSON( "http://www3.septa.org/hackathon/Arrivals/"+closest_station+"/5?callback=?", function( data ) {
-			  	$.each(data, function(obj) {
-			  		//document.getElementById("locations").innerHTML = document.getElementById("locations").innerHTML + "<br />"+"Distance: "+location_obj.distance+", name: "+location_obj.location_name;
-			  		console.log("HI");
-				});
-			});
-			
+		$.getJSON( "http://www3.septa.org/hackathon/locations/get_locations.php?lon="+position.coords.longitude+"&lat="+position.coords.latitude+"&callback=?", function( data ) {
+	  	var items = [];
+	  	$.each(data, function( location_id, location_obj) {
+	  		console.log(location_obj.location_name);
+			items.push("ID: "+location_obj.location_id+", name: "+location_obj.location_name+", lat: "+location_obj.location_lat+", lon: "+location_obj.location_lon+", distance: "+location_obj.distance+", location_type: "+location_obj.location_type+", extra_data: "+location_obj.location_data);
 		});
-
-	}
+	 
+		//console.log(items);
+		});
+	};
 
 	function onError(error) {
 	    alert('You got a geolocation error tho: '    + error.code    + '\n' +
