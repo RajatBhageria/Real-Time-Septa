@@ -78,14 +78,16 @@ angular.module('starter.controllers', [])
  
         navigator.geolocation.getCurrentPosition(function(pos) {
             map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+			map.setZoom(16);
             var myLocation = new google.maps.Marker({
                 position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
                 map: map,
                 title: "My Location"
             });
         });
- 
+		
         $scope.map = map;
+		
 
  
 })
