@@ -76,6 +76,14 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlannerController', function($scope, $ionicLoading) {
+<<<<<<< HEAD
+     $.getJSON("http://www3.septa.org/hackathon/TrainView/", function(data) {
+            console.log(data); // use data as a generic object 
+      });
+
+        //Put your code here for planner stuff
+ 
+=======
       
       var x = function() {$.getJSON("http://www3.septa.org/hackathon/TrainView?callback=?", function(data) {
             console.log(data); // use data as a generic object 
@@ -88,13 +96,13 @@ angular.module('starter.controllers', [])
       }
       setInterval(x, 1000); 
     
+>>>>>>> origin/master
 })
 
 .controller('NextTrainController', function($scope, $ionicLoading) {
- 
 	var onSuccess = function(position) {
-		document.getElementById("lat").innerHTML = position.coords.latitude;
-		document.getElementById("lon").innerHTML = position.coords.longitude;
+		//document.getElementById("lat").innerHTML = position.coords.latitude;
+		//document.getElementById("lon").innerHTML = position.coords.longitude;
 		
 		$.getJSON( "http://www3.septa.org/hackathon/locations/get_locations.php?lon="+position.coords.longitude+"&lat="+position.coords.latitude+"&callback=?", function( data ) {
 	  	var items = [];
@@ -103,7 +111,41 @@ angular.module('starter.controllers', [])
 			items.push("ID: "+location_obj.location_id+", name: "+location_obj.location_name+", lat: "+location_obj.location_lat+", lon: "+location_obj.location_lon+", distance: "+location_obj.distance+", location_type: "+location_obj.location_type+", extra_data: "+location_obj.location_data);
 		});
 	 
+<<<<<<< HEAD
 		//console.log(items);
+=======
+		
+	};
+	var radius = 20;
+	
+	function getYourRailStation(position) {
+		$.getJSON( "http://www3.septa.org/hackathon/locations/get_locations.php?lon="+position.coords.longitude+"&lat="+position.coords.latitude+"&type=rail_stations&radius="+radius+"&callback=?", function( data ) {
+			var closest_station = data[0].location_name;
+			$("#next_train_header span").html(closest_station);
+			
+			$.ajax({
+			    url: "http://www3.septa.org/hackathon/Arrivals/"+closest_station+"/5?callback=?",
+			    dataType: 'JSONP',
+			    jsonp: false,
+			    jsonpCallback: 'callback',
+			    type: 'GET',
+			    success: function (data) {
+			        console.log(data);
+			        document.getElementById("locations").innerHTML = data;
+			    },
+			    error: function () {
+			    	document.getElementById("locations").innerHTML = "We cannot get the next train right now, sorry!";
+			    }
+			});
+			
+			/*$.getJSON( "http://www3.septa.org/hackathon/Arrivals/"+closest_station+"/5?callback=?", function( data ) {
+			  	$.each(data, function(obj) {
+			  		//document.getElementById("locations").innerHTML = document.getElementById("locations").innerHTML + "<br />"+"Distance: "+location_obj.distance+", name: "+location_obj.location_name;
+			  		console.log("HI");
+				});
+			});*/
+			
+>>>>>>> origin/master
 		});
 	};
 
