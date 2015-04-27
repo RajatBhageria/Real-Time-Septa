@@ -76,22 +76,20 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlannerController', function($scope, $ionicLoading) {
-      var x = function() {$.getJSON("http://www3.septa.org/hackathon/TrainView?callback=?", function(data) {
+
+     $.getJSON("http://www3.septa.org/hackathon/TrainView/", function(data) {
             console.log(data); // use data as a generic object 
-            $.each(data, function(id, obj) {
-              var lat = obj.lat;
-              var lon = obj.lon;
-              var trainno = obj.trainno; 
-            });
-        });
-      }
-      setInterval(x, 1000); 
+      });
+
+        //Put your code here for planner stuff
+
 })
 
 .controller('NextTrainController', function($scope, $ionicLoading) {
 	var onSuccess = function(position) {
 		getYourRailStation(position);
 	};
+
 	var radius = 20;
 	
 	function getYourRailStation(position) {
@@ -113,7 +111,7 @@ angular.module('starter.controllers', [])
 			    	document.getElementById("locations").innerHTML = "We cannot get the next train right now, sorry!";
 			    }
 			});
-			
+
 		});
 	};
 
