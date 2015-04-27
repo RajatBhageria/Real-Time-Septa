@@ -60,6 +60,21 @@ angular.module('starter.controllers', [])
         };
  
         var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+		
+		var regLayer = new google.maps.KmlLayer({
+    		url: 'http://www.chanmatt.me/regionalrail.kml'
+  		});
+  		regLayer.setMap(map);
+		
+		var bsllayer = new google.maps.KmlLayer({
+    		url: 'http://www.chanmatt.me/bsl.kml'
+  		});
+  		bsllayer.setMap(map);
+		
+		var mfllayer = new google.maps.KmlLayer({
+    		url: 'http://www.chanmatt.me/mfl.kml'
+  		});
+  		mfllayer.setMap(map);
  
         navigator.geolocation.getCurrentPosition(function(pos) {
             map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));

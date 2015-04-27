@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.1">
+ <Document>
+  <name>Broad Street</name>
+  <description>BSLine</description>
+  <Style id="style1">
+   <LineStyle>
+    <color>FF1478FF</color>
+    <width>4</width>
+   </LineStyle>
+  </Style>
+  <Placemark>
+   <name>Broad Street Line</name>
+   <description></description>
+   <styleUrl>#style1</styleUrl>
+   <LineString>
+    <altitudeMode>relative</altitudeMode>
+    <coordinates>
+-75.1447,40.0389
+-75.1472,40.0276
+-75.1489,40.0198
+-75.1495,40.0167
+-75.1512,40.0095
+-75.1519,40.0061
+-75.1528,40.0018
+-75.1545,39.9941
+-75.1560,39.9872
+-75.1573,39.9814
+-75.1578,39.9789
+-75.1594,39.9717
+-75.1604,39.9673
+-75.1615,39.9622
+-75.1626,39.9572
+-75.1634,39.9536
+-75.1637,39.9532
+-75.1641,39.9527
+-75.1641,39.9522
+-75.1639,39.9517
+-75.1638,39.9514
+-75.1642,39.9496
+-75.1644,39.9485
+-75.1654,39.9443
+-75.1671,39.9364
+-75.1685,39.9300
+-75.1696,39.9246
+-75.1713,39.9172
+-75.1729,39.9102
+-75.1735,39.9076
+-75.1737,39.9068
+-75.1738,39.9057
+-75.1738,39.9052
+   </coordinates>
+   </LineString>
+  </Placemark>
+ </Document>
+</kml>
