@@ -93,13 +93,14 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlannerController', function($scope, $ionicLoading) {
-     $.getJSON("http://www3.septa.org/hackathon/TrainView/", function(data) {
-            console.log(data); // use data as a generic object 
-      });
- 
-
-        //Put your code here for planner stuff
- 
+      
+      var x = function() {$.getJSON("http://www3.septa.org/hackathon/TrainView?callback=?", function(data) {
+            //console.log(data); // use data as a generic object 
+            var json = JSON.parse(data);
+            console.log(json.service);
+        });}
+      setInterval(x, 1000); 
+    
 })
 
 .controller('NextTrainController', function($scope, $ionicLoading) {

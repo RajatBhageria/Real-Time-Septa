@@ -36,7 +36,9 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       'menuContent': {
         templateUrl: "templates/planner.html",
         controller: 'PlannerController'
-      }
+      },
+      crossDomain: true, // enable this
+      dataType: 'jsonp'
     }
   })
 
