@@ -90,6 +90,16 @@ angular.module('starter.controllers', [])
 	var onSuccess = function(position) {
 		document.getElementById("lat").innerHTML = position.coords.latitude;
 		document.getElementById("lon").innerHTML = position.coords.longitude;
+		
+		$.getJSON( "http://www3.septa.org/hackathon/locations/get_locations.php?lon="+position.coords.longitude+"&lat="+position.coords.latitude+"&callback=?", function( data ) {
+	  	var items = [];
+	  	$.each(data, function( location_id, location_obj) {
+	  		console.log(location_obj.location_name);
+			items.push("ID: "+location_obj.location_id+", name: "+location_obj.location_name+", lat: "+location_obj.location_lat+", lon: "+location_obj.location_lon+", distance: "+location_obj.distance+", location_type: "+location_obj.location_type+", extra_data: "+location_obj.location_data);
+		});
+	 
+		//console.log(items);
+		});
 	};
 
 	function onError(error) {
@@ -99,12 +109,5 @@ angular.module('starter.controllers', [])
 	
 	navigator.geolocation.getCurrentPosition(onSuccess, onError);
       
-	 /* $.getJSON( "http://www3.septa.org/hackathon/locations/get_locations.php?lon="+position.coords.longitude+"&lat="+position.coords.latitude+"&callback=?", function( data ) {
-	  	var items = [];
-	  	$.each(data, function( key, val ) {
-			items.push("ID: "+key+", name: "+val+", startDate: "+startDate+", endDate: "+endDate+", address1: "+adress1+", address2: "+address2+", city: "+city+", state: "+state+", zip: "+zip+", hours: "+hours+", loc_name: "+location+", status: "+status+", phon: "+phon );
-			});
-	 
-		//console.log(items);
-	});*/
+	  
 });
