@@ -34,7 +34,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     url: "/planner",
     views: {
       'menuContent': {
-        templateUrl: "templates/planner.html"
+        templateUrl: "templates/planner.html",
+        controller: 'PlannerController'
       }
     }
   })

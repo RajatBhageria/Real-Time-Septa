@@ -55,6 +55,7 @@ angular.module('starter.controllers', [])
         var mapOptions = {
             center: myLatlng,
             zoom: 16,
+            streetViewControl: false,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
  
@@ -71,5 +72,12 @@ angular.module('starter.controllers', [])
  
         $scope.map = map;
 
+ 
+})
+
+.controller('PlannerController', function($scope, $ionicLoading) {
+ 
+
+        //Put your code here for planner stuff
  
 });
