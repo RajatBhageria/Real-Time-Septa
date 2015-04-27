@@ -60,21 +60,6 @@ angular.module('starter.controllers', [])
         };
  
         var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-		
-		var regLayer = new google.maps.KmlLayer({
-    		url: 'http://www.chanmatt.me/regionalrail.kml'
-  		});
-  		regLayer.setMap(map);
-		
-		var bsllayer = new google.maps.KmlLayer({
-    		url: 'http://www.chanmatt.me/bsl.kml'
-  		});
-  		bsllayer.setMap(map);
-		
-		var mfllayer = new google.maps.KmlLayer({
-    		url: 'http://www.chanmatt.me/mfl.kml'
-  		});
-  		mfllayer.setMap(map);
  
         navigator.geolocation.getCurrentPosition(function(pos) {
             map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
@@ -93,19 +78,29 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlannerController', function($scope, $ionicLoading) {
+<<<<<<< HEAD
      $.getJSON("http://www3.septa.org/hackathon/TrainView/", function(data) {
             console.log(data); // use data as a generic object 
       });
 
         //Put your code here for planner stuff
  
+=======
+      
+      var x = function() {$.getJSON("http://www3.septa.org/hackathon/TrainView?callback=?", function(data) {
+            //console.log(data); // use data as a generic object 
+            var json = JSON.parse(data);
+            console.log(json.service);
+        });}
+      setInterval(x, 1000); 
+    
+>>>>>>> origin/master
 })
 
 .controller('NextTrainController', function($scope, $ionicLoading) {
- 
 	var onSuccess = function(position) {
-		document.getElementById("lat").innerHTML = position.coords.latitude;
-		document.getElementById("lon").innerHTML = position.coords.longitude;
+		//document.getElementById("lat").innerHTML = position.coords.latitude;
+		//document.getElementById("lon").innerHTML = position.coords.longitude;
 		
 		getYourRailStation(position);
 	 
@@ -118,12 +113,27 @@ angular.module('starter.controllers', [])
 			var closest_station = data[0].location_name;
 			$("#next_train_header span").html(closest_station);
 			
-			$.getJSON( "http://www3.septa.org/hackathon/Arrivals/"+closest_station+"/5?callback=?", function( data ) {
+			$.ajax({
+			    url: "http://www3.septa.org/hackathon/Arrivals/"+closest_station+"/5?callback=?",
+			    dataType: 'JSONP',
+			    jsonp: false,
+			    jsonpCallback: 'callback',
+			    type: 'GET',
+			    success: function (data) {
+			        console.log(data);
+			        document.getElementById("locations").innerHTML = data;
+			    },
+			    error: function () {
+			    	document.getElementById("locations").innerHTML = "We cannot get the next train right now, sorry!";
+			    }
+			});
+			
+			/*$.getJSON( "http://www3.septa.org/hackathon/Arrivals/"+closest_station+"/5?callback=?", function( data ) {
 			  	$.each(data, function(obj) {
 			  		//document.getElementById("locations").innerHTML = document.getElementById("locations").innerHTML + "<br />"+"Distance: "+location_obj.distance+", name: "+location_obj.location_name;
 			  		console.log("HI");
 				});
-			});
+			});*/
 			
 		});
 
