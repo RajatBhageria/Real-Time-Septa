@@ -76,15 +76,6 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlannerController', function($scope, $ionicLoading) {
-<<<<<<< HEAD
-     $.getJSON("http://www3.septa.org/hackathon/TrainView/", function(data) {
-            console.log(data); // use data as a generic object 
-      });
-
-        //Put your code here for planner stuff
- 
-=======
-      
       var x = function() {$.getJSON("http://www3.septa.org/hackathon/TrainView?callback=?", function(data) {
             console.log(data); // use data as a generic object 
             $.each(data, function(id, obj) {
@@ -95,26 +86,11 @@ angular.module('starter.controllers', [])
         });
       }
       setInterval(x, 1000); 
-    
->>>>>>> origin/master
 })
 
 .controller('NextTrainController', function($scope, $ionicLoading) {
 	var onSuccess = function(position) {
-		//document.getElementById("lat").innerHTML = position.coords.latitude;
-		//document.getElementById("lon").innerHTML = position.coords.longitude;
-		
-		$.getJSON( "http://www3.septa.org/hackathon/locations/get_locations.php?lon="+position.coords.longitude+"&lat="+position.coords.latitude+"&callback=?", function( data ) {
-	  	var items = [];
-	  	$.each(data, function( location_id, location_obj) {
-	  		console.log(location_obj.location_name);
-			items.push("ID: "+location_obj.location_id+", name: "+location_obj.location_name+", lat: "+location_obj.location_lat+", lon: "+location_obj.location_lon+", distance: "+location_obj.distance+", location_type: "+location_obj.location_type+", extra_data: "+location_obj.location_data);
-		});
-	 
-<<<<<<< HEAD
-		//console.log(items);
-=======
-		
+		getYourRailStation(position);
 	};
 	var radius = 20;
 	
@@ -138,14 +114,6 @@ angular.module('starter.controllers', [])
 			    }
 			});
 			
-			/*$.getJSON( "http://www3.septa.org/hackathon/Arrivals/"+closest_station+"/5?callback=?", function( data ) {
-			  	$.each(data, function(obj) {
-			  		//document.getElementById("locations").innerHTML = document.getElementById("locations").innerHTML + "<br />"+"Distance: "+location_obj.distance+", name: "+location_obj.location_name;
-			  		console.log("HI");
-				});
-			});*/
-			
->>>>>>> origin/master
 		});
 	};
 
