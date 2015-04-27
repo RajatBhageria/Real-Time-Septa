@@ -95,6 +95,7 @@ angular.module('starter.controllers', [])
 	  	var items = [];
 	  	$.each(data, function( location_id, location_obj) {
 	  		console.log(location_obj.location_name);
+	  		document.getElementById("locations").innerHTML = document.getElementById("locations").innerHTML + "<br />"+location_obj.location_name;
 			items.push("ID: "+location_obj.location_id+", name: "+location_obj.location_name+", lat: "+location_obj.location_lat+", lon: "+location_obj.location_lon+", distance: "+location_obj.distance+", location_type: "+location_obj.location_type+", extra_data: "+location_obj.location_data);
 		});
 	 
