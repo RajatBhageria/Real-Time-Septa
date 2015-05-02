@@ -106,12 +106,12 @@ angular.module('starter.controllers', [])
               var trainno = obj.trainno; 
               console.log("lat: " + lat + ";" + "lon: " + lon);
               
-              var pic = 'https://cdn3.iconfinder.com/data/icons/vehicles-and-transportation-icon-set/434/locomotive-simple-black-icon-512.png';
+              var pic = 'https://toiletmap.gov.au/Images/icons/train.png';
               car = new google.maps.Marker({
                 position: new google.maps.LatLng(lat, lon),
                 map: map,
                 title: trainno,
-                //icon: pic
+                icon: pic
               }); 
                var delay=1000;//1 seconds
                 setTimeout(function(){
