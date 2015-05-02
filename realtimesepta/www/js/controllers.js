@@ -164,7 +164,7 @@ angular.module('starter.controllers', [])
 			$("#next_train_header span").html(closest_station);
 			
 			$.ajax({
-			    url: "http://www3.septa.org/hackathon/Arrivals/"+closest_station+"/5?callback=?",
+			    url: "http://www3.septa.org/hackathon/Arrivals/"+ closest_station +"/5/",
 			    dataType: 'JSONP',
 			    jsonp: false,
 			    jsonpCallback: 'callback',
