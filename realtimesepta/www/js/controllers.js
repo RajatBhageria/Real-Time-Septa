@@ -97,50 +97,58 @@ angular.module('starter.controllers', [])
 
 
        //Update the location of the individual trains 
-       var car; 
-       var x = function() {$.getJSON("http://www3.septa.org/hackathon/TrainView?callback=?", function(data) {
-            console.log(data); // use data as a generic object 
-            $.each(data, function(id, obj) {
-              var lat = obj.lat;
-              var lon = obj.lon;
-              var trainno = obj.trainno; 
-              console.log("lat: " + lat + ";" + "lon: " + lon);
+        var car;
+
+        var markersArray = [];
+
+        function clearCars() {
+          for (var i = 0; i < markersArray.length; i++ ) {
+            markersArray[i].setMap(null);
+          }
+          markersArray.length = 0;
+        }
+
+        var x = function() {$.getJSON("http://www3.septa.org/hackathon/TrainView?callback=?", function(data) {
+          console.log(data); // use data as a generic object 
+          clearCars();
+
+          $.each(data, function(id, obj) {
+            var lat = obj.lat;
+            var lon = obj.lon;
+            var trainno = obj.trainno; 
+            console.log("lat: " + lat + ";" + "lon: " + lon);
               
-              var pic = 'https://toiletmap.gov.au/Images/icons/train.png';
-              car = new google.maps.Marker({
-                position: new google.maps.LatLng(lat, lon),
-                map: map,
-                title: trainno,
-                icon: pic
-              }); 
-               var delay=1000;//1 seconds
-                setTimeout(function(){
-                  car.setMap(null);
-                  setAllMap(null);
-                }, delay); 
-            });
-        });
-
-      }
-
-      setInterval(x, 1000); 
-
-
-
- 
+            var pic = 'https://toiletmap.gov.au/Images/icons/train.png';
+            car = new google.maps.Marker({
+              position: new google.maps.LatLng(lat, lon),
+              map: map,
+              title: trainno,
+              icon: pic
+              });
+            markersArray.push(car); 
+            google.maps.event.addListener(car,"click",function(){});
+             
+            //var delay=1000;//1 second
+            //setTimeout(function(){
+              //car.setMap(null);
+              //setAllMap(null);
+              //clearCars;
+            //}, delay); 
+          });
+        });}
+        setInterval(x, 10000);  
 })
 
 .controller('PlannerController', function($scope, $ionicLoading) {
 
-    $.getJSON("http://www3.septa.org/hackathon/TrainView/", function(data) {
-    	console.log(data); // use data as a generic object 
-    });
+  $.getJSON("http://www3.septa.org/hackathon/TrainView/", function(data) {
+   	console.log(data); // use data as a generic object 
+  });
 
 	//Put your code here for planner stuff
 	$('#plan').click(function(){
-    	alert( "Destination: " + $( "#destination option:selected" ).text());
+    alert( "Destination: " + $( "#destination option:selected" ).text());
 	});
-
 })
 
 .controller('NextTrainController', function($scope, $ionicLoading) {
@@ -178,7 +186,5 @@ angular.module('starter.controllers', [])
 	          'message: ' + error.message + '\n');
 	}
 	
-	navigator.geolocation.getCurrentPosition(onSuccess, onError);
-      
-	  
+	navigator.geolocation.getCurrentPosition(onSuccess, onError);  
 });
