@@ -58,9 +58,9 @@ angular.module('starter.controllers', [])
         
         var mapOptions = {
             center: myLatlng,
-            zoom: 16,
             streetViewControl: false,
             disableDefaultUI: true,
+            zoom: 16,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
  
@@ -94,6 +94,8 @@ angular.module('starter.controllers', [])
         });
  
         $scope.map = map;
+        
+        
 
 
        //Update the location of the individual trains 
@@ -140,20 +142,42 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlannerController', function($scope, $ionicLoading) {
-
-  $.getJSON("http://www3.septa.org/hackathon/TrainView/", function(data) {
-   	console.log(data); // use data as a generic object 
-  });
-
+	$.getJSON("http://www3.septa.org/hackathon/TrainView/?callback=?", function(data) {
+    	console.log(data); // use data as a generic object 
+    });
 	//Put your code here for planner stuff
 	$('#plan').click(function(){
     alert( "Destination: " + $( "#destination option:selected" ).text());
 	});
+
+	var json = '[ { "Oreland" : [ "Fort Washington" ] } , { "Ryers" : [ "Fox Chase" ] } , { "Fernwood-Yeadon" : [ "Lansdowne" ] } , { "Airport Terminal C & D" : [ "Airport Terminal E & F" ] } , { "Neshaminy Falls" : [ "Langhorne" ] } , { "Levittown" : [ "Trenton Transit Center" ] } , { "Crum Lynne" : [ "Eddystone" ] } , { "Queen Lane" : [ "Chelten Avenue" ] } , { "Suburban Station" : [ "30th Street Station" , "Jefferson Station" ] } , { "Glenolden" : [ "Norwood" ] } , { "Fortuna" : [ "Colmar" ] } , { "Devon" : [ "Berwyn" ] } , { "Langhorne" : [ "Woodbourne" ] } , { "Noble" : [ "Rydal" ] } , { "Airport Terminal A" : [ "Airport Terminal B" ] } , { "Airport Terminal B" : [ "Airport Terminal C & D" ] } , { "Darby" : [ "Curtis Park" ] } , { "Wynnewood" : [ "Ardmore" ] } , { "North Hills" : [ "Oreland" ] } , { "Holmesburg" : [ "Torresdale" ] } , { "Overbrook" : [ "Merion" ] } , { "Glenside" : [ "North Hills" , "Ardsley" ] } , { "Highland" : [ "Chestnut Hill West" ] } , { "Elwyn" : [  ] } , { "Daylesford" : [ "Paoli" ] } , { "Roslyn" : [ "Crestmont" ] } , { "Norristown TC" : [ "Main Street" ] } , { "Malvern" : [ "Exton" ] } , { "Chester" : [ "Highland Avenue" ] } , { "Doylestown" : [  ] } , { "Ardmore" : [ "Haverford" ] } , { "University City" : [ "Eastwick" , "49th Street" , "Darby" , "30th Street Station" ] } , { "Wayne Junction" : [ "Wister" , "Olney" , "Fern Rock TC" ] } , { "New Britain" : [ "Del Val College" ] } , { "Rosemont" : [ "Villanova" ] } , { "Claymont" : [ "Wilmington" ] } , { "Somerton" : [ "Trevose" ] } , { "Croydon" : [ "Bristol" ] } , { "Gwynedd Valley" : [ "North Wales" ] } , { "Penllyn" : [ "Gwynedd Valley" ] } , { "Olney" : [ "Lawndale" ] } , { "Prospect Park" : [ "Ridley Park" ] } , { "Carpenter" : [ "Allen Lane" ] } , { "Cynwyd" : [  ] } , { "Narberth" : [ "Wynnewood" ] } , { "Radnor" : [ "St Davids" ] } , { "Yardley" : [ "West Trenton" ] } , { "Secane" : [ "Morton" ] } , { "Gladstone" : [ "Clifton-Aldan" ] } , { "Moylan-Rose Valley" : [ "Media" ] } , { "Angora" : [ "Fernwood-Yeadon" ] } , { "Wilmington" : [ "Churchmans Crossing" ] } , { "Lawndale" : [ "Cheltenham" ] } , { "Chelten Avenue" : [ "Tulpehocken" ] } , { "Pennbrook" : [ "Lansdale" ] } , { "Swarthmore" : [ "Wallingford" ] } , { "Sharon Hill" : [ "Folcroft" ] } , { "Highland Avenue" : [ "Marcus Hook" ] } , { "Washington Lane" : [ "Stenton" ] } , { "Elm Street" : [  ] } , { "Colmar" : [ "Link Belt" ] } , { "Norwood" : [ "Prospect Park" ] } , { "North Wales" : [ "Pennbrook" ] } , { "Bethayres" : [ "Philmont" ] } , { "Exton" : [ "Whitford" ] } , { "Wissahickon TC" : [ "Manayunk" ] } , { "Ardsley" : [ "Roslyn" ] } , { "Wyndmoor" : [ "Gravers" ] } , { "Bristol" : [ "Levittown" ] } , { "Primos" : [ "Secane" ] } , { "Newark" : [  ] } , { "Eddington" : [ "Croydon" ] } , { "Hatboro" : [ "Warminster" ] } , { "Spring Mill" : [ "Conshohocken" ] } , { "Allegheny" : [ "East Falls" ] } , { "Mount Airy" : [ "Wyndmoor" ] } , { "East Falls" : [ "Wissahickon TC" ] } , { "Cornwells Heights" : [ "Eddington" ] } , { "Clifton-Aldan" : [ "Primos" ] } , { "Gravers" : [ "Chestnut Hill East" ] } , { "Lansdowne" : [ "Gladstone" ] } , { "Fern Rock TC" : [ "Melrose Park" ] } , { "Upsal" : [ "Carpenter" ] } , { "Marcus Hook" : [ "Claymont" ] } , { "49th Street" : [ "Angora" ] } , { "Elkins Park" : [ "Jenkintown" ] } , { "Cheltenham" : [ "Ryers" ] } , { "Melrose Park" : [ "Elkins Park" ] } , { "St Davids" : [ "Wayne" ] } , { "Eastwick" : [ "Airport Terminal A" ] } , { "Germantown" : [ "Washington Lane" ] } , { "Morton" : [ "Swarthmore" ] } , { "Philmont" : [ "Forest Hills" ] } , { "Berwyn" : [ "Daylesford" ] } , { "Whitford" : [ "Downingtown" ] } , { "Ivy Ridge" : [ "Miquon" ] } , { "Airport Terminal E & F" : [  ] } , { "30th Street Station" : [ "University City" , "North Philadelphia" , "Wynnefield Avenue" , "Overbrook" , "Suburban Station" ] } , { "Wynnefield Avenue" : [ "Bala" ] } , { "North Philadelphia" : [ "Queen Lane" , "Bridesburg" ] } , { "Temple University" : [ "Jefferson Station" , "Wayne Junction" , "North Broad" ] } , { "Del Val College" : [ "Doylestown" ] } , { "Chalfont" : [ "New Britain" ] } , { "Media" : [ "Elwyn" ] } , { "Merion" : [ "Narberth" ] } , { "Chestnut Hill East" : [  ] } , { "Strafford" : [ "Devon" ] } , { "Fox Chase" : [  ] } , { "Bala" : [ "Cynwyd" ] } , { "Ambler" : [ "Penllyn" ] } , { "Torresdale" : [ "Cornwells Heights" ] } , { "Forest Hills" : [ "Somerton" ] } , { "Wallingford" : [ "Moylan-Rose Valley" ] } , { "Chestnut Hill West" : [  ] } , { "Jenkintown" : [ "Glenside" , "Noble" ] } , { "Villanova" : [ "Radnor" ] } , { "Manayunk" : [ "Ivy Ridge" ] } , { "Paoli" : [ "Malvern" ] } , { "Fort Washington" : [ "Ambler" ] } , { "Bridesburg" : [ "Tacony" ] } , { "Rydal" : [ "Meadowbrook" ] } , { "Wayne" : [ "Strafford" ] } , { "Trevose" : [ "Neshaminy Falls" ] } , { "St Martins" : [ "Highland" ] } , { "Meadowbrook" : [ "Bethayres" ] } , { "Eddystone" : [ "Chester" ] } , { "Thorndale" : [  ] } , { "Bryn Mawr" : [ "Rosemont" ] } , { "Miquon" : [ "Spring Mill" ] } , { "Lansdale" : [ "Fortuna" ] } , { "Downingtown" : [ "Thorndale" ] } , { "Woodbourne" : [ "Yardley" ] } , { "Main Street" : [ "Elm Street" ] } , { "Tacony" : [ "Holmesburg" ] } , { "Ridley Park" : [ "Crum Lynne" ] } , { "Folcroft" : [ "Glenolden" ] } , { "Willow Grove" : [ "Hatboro" ] } , { "Haverford" : [ "Bryn Mawr" ] } , { "Sedgwick" : [ "Mount Airy" ] } , { "Curtis Park" : [ "Sharon Hill" ] } , { "Conshohocken" : [ "Norristown TC" ] } , { "Allen Lane" : [ "St Martins" ] } , { "Link Belt" : [ "Chalfont" ] } , { "North Broad" : [ "Wayne Junction" , "Allegheny" ] } , { "Churchmans Crossing" : [ "Newark" ] } , { "Crestmont" : [ "Willow Grove" ] } , { "Trenton Transit Center" : [  ] } , { "Jefferson Station" : [ "Suburban Station" , "Temple University" ] } , { "Tulpehocken" : [ "Upsal" ] } , { "Stenton" : [ "Sedgwick" ] } , { "Wister" : [ "Germantown" ] } , { "Warminster" : [  ] } ]';
+	json = JSON.parse(json);
+	
+	var adjacencyList = [];
+
+	$.each(json, function(i, item) {
+		console.log(item);
+		var tmp_array = [];
+		for (var prop in object) {
+			tmp_array = [prop, object[prop]];
+		    break;
+		}
+		
+	    //adjacencyList.push(tmp_array);
+	});
+	
+	console.log(adjacencyList);
+	
+	$('#plan_fewest_stops').click(function(){
+    	alert( "Destination hi: " + $( "#destination option:selected" ).text());
+	});
 })
 
 .controller('NextTrainController', function($scope, $ionicLoading) {
+	var pos;
 	var onSuccess = function(position) {
 		getYourRailStation(position);
+		pos = position;
 	};
 
 	var radius = 20;
@@ -162,22 +186,36 @@ angular.module('starter.controllers', [])
 		$.getJSON( "http://www3.septa.org/hackathon/locations/get_locations.php?lon="+position.coords.longitude+"&lat="+position.coords.latitude+"&type=rail_stations&radius="+radius+"&callback=?", function( data ) {
 			var closest_station = data[0].location_name;
 			$("#next_train_header span").html(closest_station);
+			var url = "http://www3.septa.org/hackathon/Arrivals/"+ closest_station +"/5/";
 			
-			$.ajax({
-			    url: "http://www3.septa.org/hackathon/Arrivals/"+ closest_station +"/5/",
-			    dataType: 'JSONP',
-			    jsonp: false,
-			    jsonpCallback: 'callback',
-			    type: 'GET',
-			    success: function (data) {
-			        console.log(data);
-			        document.getElementById("locations").innerHTML = data;
-			    },
-			    error: function () {
-			    	document.getElementById("locations").innerHTML = "We cannot get the next train right now, sorry!";
-			    }
+			
+			$.getJSON('http://whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function(data){
+				var resp = JSON.parse(data.contents);
+				console.log(data.contents);
+				console.log(resp);
+				$.each(resp, function(i, item) {
+					console.log(item);//array of two, N & S
+					if (item[0] instanceof Array) {
+						document.getElementById("northbound").innerHTML = "No trains going Northbound";
+					} else {
+						$.each(item[0], function(i, item) {
+							$.each(item, function(i, item) {
+								document.getElementById("northbound").innerHTML = "<span class='train_id'>#"+item.train_id+"</span><span class='path'> from "+item.origin+" to "+item.destination+", next stop "+item.next_station;
+							});
+						});
+					}
+					if (item[1] instanceof Array) {
+						document.getElementById("northbound").innerHTML = "No trains going Southbound";
+					} else {
+						$.each(item[1], function(i, item) {
+							$.each(item, function(i, item) {
+								document.getElementById("southbound").innerHTML = "<span class='train_id'>#"+item.train_id+"</span><span class='path'> from "+item.origin+" to "+item.destination+", next stop "+item.next_station;
+							});
+						});
+					}
+				});
 			});
-
+			
 		});
 	};
 
@@ -185,6 +223,10 @@ angular.module('starter.controllers', [])
 	    alert('You got a geolocation error tho: '    + error.code    + '\n' +
 	          'message: ' + error.message + '\n');
 	}
+	
+	$("#nextTrainRefresh").click(function() {
+		getYourRailStation(pos);
+	});
 	
 	navigator.geolocation.getCurrentPosition(onSuccess, onError);  
 });
