@@ -143,21 +143,16 @@ angular.module('starter.controllers', [])
 
 .controller('PlannerController', function($scope, $ionicLoading) {
   $.getJSON("http://www3.septa.org/hackathon/TrainView/?callback=?", function(data) {
-      console.log(data); // use data as a generic object 
+      //console.log(data); // use data as a generic object 
     });
-  //Put your code here for planner stuff
-  var start, dest; 
-  $('#plan').click(function(){
-    //alert( "Destination: " + $( "#destination option:selected" ).text());
-    start = $("#start option:selected").text();
-    dest = $( "#destination option:selected" ).text();
-  });
 
-  var json = '[ { "Oreland" : [ "Fort Washington" ] } , { "Ryers" : [ "Fox Chase" ] } , { "Fernwood-Yeadon" : [ "Lansdowne" ] } , { "Airport Terminal C & D" : [ "Airport Terminal E & F" ] } , { "Neshaminy Falls" : [ "Langhorne" ] } , { "Levittown" : [ "Trenton Transit Center" ] } , { "Crum Lynne" : [ "Eddystone" ] } , { "Queen Lane" : [ "Chelten Avenue" ] } , { "Suburban Station" : [ "30th Street Station" , "Jefferson Station" ] } , { "Glenolden" : [ "Norwood" ] } , { "Fortuna" : [ "Colmar" ] } , { "Devon" : [ "Berwyn" ] } , { "Langhorne" : [ "Woodbourne" ] } , { "Noble" : [ "Rydal" ] } , { "Airport Terminal A" : [ "Airport Terminal B" ] } , { "Airport Terminal B" : [ "Airport Terminal C & D" ] } , { "Darby" : [ "Curtis Park" ] } , { "Wynnewood" : [ "Ardmore" ] } , { "North Hills" : [ "Oreland" ] } , { "Holmesburg" : [ "Torresdale" ] } , { "Overbrook" : [ "Merion" ] } , { "Glenside" : [ "North Hills" , "Ardsley" ] } , { "Highland" : [ "Chestnut Hill West" ] } , { "Elwyn" : [  ] } , { "Daylesford" : [ "Paoli" ] } , { "Roslyn" : [ "Crestmont" ] } , { "Norristown TC" : [ "Main Street" ] } , { "Malvern" : [ "Exton" ] } , { "Chester" : [ "Highland Avenue" ] } , { "Doylestown" : [  ] } , { "Ardmore" : [ "Haverford" ] } , { "University City" : [ "Eastwick" , "49th Street" , "Darby" , "30th Street Station" ] } , { "Wayne Junction" : [ "Wister" , "Olney" , "Fern Rock TC" ] } , { "New Britain" : [ "Del Val College" ] } , { "Rosemont" : [ "Villanova" ] } , { "Claymont" : [ "Wilmington" ] } , { "Somerton" : [ "Trevose" ] } , { "Croydon" : [ "Bristol" ] } , { "Gwynedd Valley" : [ "North Wales" ] } , { "Penllyn" : [ "Gwynedd Valley" ] } , { "Olney" : [ "Lawndale" ] } , { "Prospect Park" : [ "Ridley Park" ] } , { "Carpenter" : [ "Allen Lane" ] } , { "Cynwyd" : [  ] } , { "Narberth" : [ "Wynnewood" ] } , { "Radnor" : [ "St Davids" ] } , { "Yardley" : [ "West Trenton" ] } , { "Secane" : [ "Morton" ] } , { "Gladstone" : [ "Clifton-Aldan" ] } , { "Moylan-Rose Valley" : [ "Media" ] } , { "Angora" : [ "Fernwood-Yeadon" ] } , { "Wilmington" : [ "Churchmans Crossing" ] } , { "Lawndale" : [ "Cheltenham" ] } , { "Chelten Avenue" : [ "Tulpehocken" ] } , { "Pennbrook" : [ "Lansdale" ] } , { "Swarthmore" : [ "Wallingford" ] } , { "Sharon Hill" : [ "Folcroft" ] } , { "Highland Avenue" : [ "Marcus Hook" ] } , { "Washington Lane" : [ "Stenton" ] } , { "Elm Street" : [  ] } , { "Colmar" : [ "Link Belt" ] } , { "Norwood" : [ "Prospect Park" ] } , { "North Wales" : [ "Pennbrook" ] } , { "Bethayres" : [ "Philmont" ] } , { "Exton" : [ "Whitford" ] } , { "Wissahickon TC" : [ "Manayunk" ] } , { "Ardsley" : [ "Roslyn" ] } , { "Wyndmoor" : [ "Gravers" ] } , { "Bristol" : [ "Levittown" ] } , { "Primos" : [ "Secane" ] } , { "Newark" : [  ] } , { "Eddington" : [ "Croydon" ] } , { "Hatboro" : [ "Warminster" ] } , { "Spring Mill" : [ "Conshohocken" ] } , { "Allegheny" : [ "East Falls" ] } , { "Mount Airy" : [ "Wyndmoor" ] } , { "East Falls" : [ "Wissahickon TC" ] } , { "Cornwells Heights" : [ "Eddington" ] } , { "Clifton-Aldan" : [ "Primos" ] } , { "Gravers" : [ "Chestnut Hill East" ] } , { "Lansdowne" : [ "Gladstone" ] } , { "Fern Rock TC" : [ "Melrose Park" ] } , { "Upsal" : [ "Carpenter" ] } , { "Marcus Hook" : [ "Claymont" ] } , { "49th Street" : [ "Angora" ] } , { "Elkins Park" : [ "Jenkintown" ] } , { "Cheltenham" : [ "Ryers" ] } , { "Melrose Park" : [ "Elkins Park" ] } , { "St Davids" : [ "Wayne" ] } , { "Eastwick" : [ "Airport Terminal A" ] } , { "Germantown" : [ "Washington Lane" ] } , { "Morton" : [ "Swarthmore" ] } , { "Philmont" : [ "Forest Hills" ] } , { "Berwyn" : [ "Daylesford" ] } , { "Whitford" : [ "Downingtown" ] } , { "Ivy Ridge" : [ "Miquon" ] } , { "Airport Terminal E & F" : [  ] } , { "30th Street Station" : [ "University City" , "North Philadelphia" , "Wynnefield Avenue" , "Overbrook" , "Suburban Station" ] } , { "Wynnefield Avenue" : [ "Bala" ] } , { "North Philadelphia" : [ "Queen Lane" , "Bridesburg" ] } , { "Temple University" : [ "Jefferson Station" , "Wayne Junction" , "North Broad" ] } , { "Del Val College" : [ "Doylestown" ] } , { "Chalfont" : [ "New Britain" ] } , { "Media" : [ "Elwyn" ] } , { "Merion" : [ "Narberth" ] } , { "Chestnut Hill East" : [  ] } , { "Strafford" : [ "Devon" ] } , { "Fox Chase" : [  ] } , { "Bala" : [ "Cynwyd" ] } , { "Ambler" : [ "Penllyn" ] } , { "Torresdale" : [ "Cornwells Heights" ] } , { "Forest Hills" : [ "Somerton" ] } , { "Wallingford" : [ "Moylan-Rose Valley" ] } , { "Chestnut Hill West" : [  ] } , { "Jenkintown" : [ "Glenside" , "Noble" ] } , { "Villanova" : [ "Radnor" ] } , { "Manayunk" : [ "Ivy Ridge" ] } , { "Paoli" : [ "Malvern" ] } , { "Fort Washington" : [ "Ambler" ] } , { "Bridesburg" : [ "Tacony" ] } , { "Rydal" : [ "Meadowbrook" ] } , { "Wayne" : [ "Strafford" ] } , { "Trevose" : [ "Neshaminy Falls" ] } , { "St Martins" : [ "Highland" ] } , { "Meadowbrook" : [ "Bethayres" ] } , { "Eddystone" : [ "Chester" ] } , { "Thorndale" : [  ] } , { "Bryn Mawr" : [ "Rosemont" ] } , { "Miquon" : [ "Spring Mill" ] } , { "Lansdale" : [ "Fortuna" ] } , { "Downingtown" : [ "Thorndale" ] } , { "Woodbourne" : [ "Yardley" ] } , { "Main Street" : [ "Elm Street" ] } , { "Tacony" : [ "Holmesburg" ] } , { "Ridley Park" : [ "Crum Lynne" ] } , { "Folcroft" : [ "Glenolden" ] } , { "Willow Grove" : [ "Hatboro" ] } , { "Haverford" : [ "Bryn Mawr" ] } , { "Sedgwick" : [ "Mount Airy" ] } , { "Curtis Park" : [ "Sharon Hill" ] } , { "Conshohocken" : [ "Norristown TC" ] } , { "Allen Lane" : [ "St Martins" ] } , { "Link Belt" : [ "Chalfont" ] } , { "North Broad" : [ "Wayne Junction" , "Allegheny" ] } , { "Churchmans Crossing" : [ "Newark" ] } , { "Crestmont" : [ "Willow Grove" ] } , { "Trenton Transit Center" : [  ] } , { "Jefferson Station" : [ "Suburban Station" , "Temple University" ] } , { "Tulpehocken" : [ "Upsal" ] } , { "Stenton" : [ "Sedgwick" ] } , { "Wister" : [ "Germantown" ] } , { "Warminster" : [  ] } ]';
-  json = JSON.parse(json);
+
+  var pJson = '[ { "Oreland" : [ "Fort Washington" ] } , { "Ryers" : [ "Fox Chase" ] } , { "Fernwood-Yeadon" : [ "Lansdowne" ] } , { "Airport Terminal C & D" : [ "Airport Terminal E & F" ] } , { "Neshaminy Falls" : [ "Langhorne" ] } , { "Levittown" : [ "Trenton Transit Center" ] } , { "Crum Lynne" : [ "Eddystone" ] } , { "Queen Lane" : [ "Chelten Avenue" ] } , { "Suburban Station" : [ "30th Street Station" , "Jefferson Station" ] } , { "Glenolden" : [ "Norwood" ] } , { "Fortuna" : [ "Colmar" ] } , { "Devon" : [ "Berwyn" ] } , { "Langhorne" : [ "Woodbourne" ] } , { "Noble" : [ "Rydal" ] } , { "Airport Terminal A" : [ "Airport Terminal B" ] } , { "Airport Terminal B" : [ "Airport Terminal C & D" ] } , { "Darby" : [ "Curtis Park" ] } , { "Wynnewood" : [ "Ardmore" ] } , { "North Hills" : [ "Oreland" ] } , { "Holmesburg" : [ "Torresdale" ] } , { "Overbrook" : [ "Merion" ] } , { "Glenside" : [ "North Hills" , "Ardsley" ] } , { "Highland" : [ "Chestnut Hill West" ] } , { "Elwyn" : [  ] } , { "Daylesford" : [ "Paoli" ] } , { "Roslyn" : [ "Crestmont" ] } , { "Norristown TC" : [ "Main Street" ] } , { "Malvern" : [ "Exton" ] } , { "Chester" : [ "Highland Avenue" ] } , { "Doylestown" : [  ] } , { "Ardmore" : [ "Haverford" ] } , { "University City" : [ "Eastwick" , "49th Street" , "Darby" , "30th Street Station" ] } , { "Wayne Junction" : [ "Wister" , "Olney" , "Fern Rock TC" ] } , { "New Britain" : [ "Del Val College" ] } , { "Rosemont" : [ "Villanova" ] } , { "Claymont" : [ "Wilmington" ] } , { "Somerton" : [ "Trevose" ] } , { "Croydon" : [ "Bristol" ] } , { "Gwynedd Valley" : [ "North Wales" ] } , { "Penllyn" : [ "Gwynedd Valley" ] } , { "Olney" : [ "Lawndale" ] } , { "Prospect Park" : [ "Ridley Park" ] } , { "Carpenter" : [ "Allen Lane" ] } , { "Cynwyd" : [  ] } , { "Narberth" : [ "Wynnewood" ] } , { "Radnor" : [ "St Davids" ] } , { "Yardley" : [ "West Trenton" ] } , { "Secane" : [ "Morton" ] } , { "Gladstone" : [ "Clifton-Aldan" ] } , { "Moylan-Rose Valley" : [ "Media" ] } , { "Angora" : [ "Fernwood-Yeadon" ] } , { "Wilmington" : [ "Churchmans Crossing" ] } , { "Lawndale" : [ "Cheltenham" ] } , { "Chelten Avenue" : [ "Tulpehocken" ] } , { "Pennbrook" : [ "Lansdale" ] } , { "Swarthmore" : [ "Wallingford" ] } , { "Sharon Hill" : [ "Folcroft" ] } , { "Highland Avenue" : [ "Marcus Hook" ] } , { "Washington Lane" : [ "Stenton" ] } , { "Elm Street" : [  ] } , { "Colmar" : [ "Link Belt" ] } , { "Norwood" : [ "Prospect Park" ] } , { "North Wales" : [ "Pennbrook" ] } , { "Bethayres" : [ "Philmont" ] } , { "Exton" : [ "Whitford" ] } , { "Wissahickon TC" : [ "Manayunk" ] } , { "Ardsley" : [ "Roslyn" ] } , { "Wyndmoor" : [ "Gravers" ] } , { "Bristol" : [ "Levittown" ] } , { "Primos" : [ "Secane" ] } , { "Newark" : [  ] } , { "Eddington" : [ "Croydon" ] } , { "Hatboro" : [ "Warminster" ] } , { "Spring Mill" : [ "Conshohocken" ] } , { "Allegheny" : [ "East Falls" ] } , { "Mount Airy" : [ "Wyndmoor" ] } , { "East Falls" : [ "Wissahickon TC" ] } , { "Cornwells Heights" : [ "Eddington" ] } , { "Clifton-Aldan" : [ "Primos" ] } , { "Gravers" : [ "Chestnut Hill East" ] } , { "Lansdowne" : [ "Gladstone" ] } , { "Fern Rock TC" : [ "Melrose Park" ] } , { "Upsal" : [ "Carpenter" ] } , { "Marcus Hook" : [ "Claymont" ] } , { "49th Street" : [ "Angora" ] } , { "Elkins Park" : [ "Jenkintown" ] } , { "Cheltenham" : [ "Ryers" ] } , { "Melrose Park" : [ "Elkins Park" ] } , { "St Davids" : [ "Wayne" ] } , { "Eastwick" : [ "Airport Terminal A" ] } , { "Germantown" : [ "Washington Lane" ] } , { "Morton" : [ "Swarthmore" ] } , { "Philmont" : [ "Forest Hills" ] } , { "Berwyn" : [ "Daylesford" ] } , { "Whitford" : [ "Downingtown" ] } , { "Ivy Ridge" : [ "Miquon" ] } , { "Airport Terminal E & F" : [  ] } , { "30th Street Station" : [ "University City" , "North Philadelphia" , "Wynnefield Avenue" , "Overbrook" , "Suburban Station" ] } , { "Wynnefield Avenue" : [ "Bala" ] } , { "North Philadelphia" : [ "Queen Lane" , "Bridesburg" ] } , { "Temple University" : [ "Jefferson Station" , "Wayne Junction" , "North Broad" ] } , { "Del Val College" : [ "Doylestown" ] } , { "Chalfont" : [ "New Britain" ] } , { "Media" : [ "Elwyn" ] } , { "Merion" : [ "Narberth" ] } , { "Chestnut Hill East" : [  ] } , { "Strafford" : [ "Devon" ] } , { "Fox Chase" : [  ] } , { "Bala" : [ "Cynwyd" ] } , { "Ambler" : [ "Penllyn" ] } , { "Torresdale" : [ "Cornwells Heights" ] } , { "Forest Hills" : [ "Somerton" ] } , { "Wallingford" : [ "Moylan-Rose Valley" ] } , { "Chestnut Hill West" : [  ] } , { "Jenkintown" : [ "Glenside" , "Noble" ] } , { "Villanova" : [ "Radnor" ] } , { "Manayunk" : [ "Ivy Ridge" ] } , { "Paoli" : [ "Malvern" ] } , { "Fort Washington" : [ "Ambler" ] } , { "Bridesburg" : [ "Tacony" ] } , { "Rydal" : [ "Meadowbrook" ] } , { "Wayne" : [ "Strafford" ] } , { "Trevose" : [ "Neshaminy Falls" ] } , { "St Martins" : [ "Highland" ] } , { "Meadowbrook" : [ "Bethayres" ] } , { "Eddystone" : [ "Chester" ] } , { "Thorndale" : [  ] } , { "Bryn Mawr" : [ "Rosemont" ] } , { "Miquon" : [ "Spring Mill" ] } , { "Lansdale" : [ "Fortuna" ] } , { "Downingtown" : [ "Thorndale" ] } , { "Woodbourne" : [ "Yardley" ] } , { "Main Street" : [ "Elm Street" ] } , { "Tacony" : [ "Holmesburg" ] } , { "Ridley Park" : [ "Crum Lynne" ] } , { "Folcroft" : [ "Glenolden" ] } , { "Willow Grove" : [ "Hatboro" ] } , { "Haverford" : [ "Bryn Mawr" ] } , { "Sedgwick" : [ "Mount Airy" ] } , { "Curtis Park" : [ "Sharon Hill" ] } , { "Conshohocken" : [ "Norristown TC" ] } , { "Allen Lane" : [ "St Martins" ] } , { "Link Belt" : [ "Chalfont" ] } , { "North Broad" : [ "Wayne Junction" , "Allegheny" ] } , { "Churchmans Crossing" : [ "Newark" ] } , { "Crestmont" : [ "Willow Grove" ] } , { "Trenton Transit Center" : [  ] } , { "Jefferson Station" : [ "Suburban Station" , "Temple University" ] } , { "Tulpehocken" : [ "Upsal" ] } , { "Stenton" : [ "Sedgwick" ] } , { "Wister" : [ "Germantown" ] } , { "Warminster" : [  ] } ]';
+  json = JSON.parse(pJson);
   
   var adjacencyList = [];
 
+/*
   $.each(json, function(i, item) {
     console.log(item);
     var tmp_array = [];
@@ -168,27 +163,41 @@ angular.module('starter.controllers', [])
   
       //adjacencyList.push(tmp_array);
   })
+
+*/
   
   //console.log(adjacencyList);
 
   var findAdjacentEdges = function(node, graph){
     var out = [];
+    var type = typeof graph; 
+    if (type == "object") {
+      for (var key in graph) {
+        console.log(key);
+      }
+
+    }
+/*
     $.each(graph, function(key,val){
-      if (key === node){
+      //console.log(graph);
+      console.log(key;
+      if (key == node){
+        console.log(key);
         for (var adjacent in val){
           out.push(adjacent);
         }
       }
     });
+      */
     return out;
   }
 
   var q = [];
   var labeled = [];
   var v;
-  var runBFS = function(graph, start, dest){
-    q.push(start);
-    labeled.push(start);
+  var runBFS = function(graph, pStart, pDest){
+    q.push(pStart);
+    labeled.push(pStart);
     while (q.length>0){
       v = q.pop();
       var adjacentEdges = findAdjacentEdges(v, graph);
@@ -198,18 +207,30 @@ angular.module('starter.controllers', [])
         if (!$.inArray(w, labeled)){
           q.push(w);
           labeled.push(w);
-          if ($.inArray(dest,labeled)){
+          if ($.inArray(pDest,labeled)){
             return labeled;
           }
         }
       }
     }
+    for (var location in labeled){
+      console.log(location)
+    }
     return labeled;
     }
   } 
+
   $('#plan_fewest_stops').click(function(){
-      alert( "Destination hi: " + $( "#destination option:selected" ).text());
-      alert(runBFS(json, start, dest));
+      //var start = $("#start option:selected").text();
+      //var dest = $("#destination option:selected").text();
+      var start = "University City";
+      var dest = "30th Street Station";
+      console.log(json);
+      console.log("Start: " + start);
+      console.log("Destination: " + dest);
+      //console.log(runBFS(json, start, dest));
+      console.log("Adjacent Edges: " + findAdjacentEdges(start, json));
+
   });
 })
 
