@@ -195,6 +195,7 @@ angular.module('starter.controllers', [])
   		console.log(adjacentNodes.length);
 	  		for (var i = 0; i < adjacentNodes.length; i++) {
 	  			if (visited.indexOf(adjacentNodes[i]) == -1) { // if not visited
+	  				console.log('not visited');
 		  			if (adjacentNodes[i] == end) {
 		  				path.push(adjacentNodes[i]);
 		  				return true;
@@ -217,6 +218,7 @@ angular.module('starter.controllers', [])
     	var q = [start];
     	console.log("START: "+start+"   ::  END: "+end);
     	path = [];
+    	visited = [];
     	console.log(BFSstep(q, graph, end));
     	path.push(start);
     	console.log(path.reverse());
