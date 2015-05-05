@@ -202,6 +202,7 @@ angular.module('starter.controllers', [])
   }
 
   var v;
+  var path = [];
   var runBFS = function(graph, pStart, pDest, q){
     q.push(pStart);
     path.push(pStart);
