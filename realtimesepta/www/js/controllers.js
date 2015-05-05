@@ -1,3 +1,6 @@
+var closest_station = "University City";
+var radius = 20;
+
 angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
@@ -20,6 +23,21 @@ angular.module('starter.controllers', [])
   $scope.login = function() {
     $scope.modal.show();
   };
+  
+  //get current position
+  navigator.geolocation.getCurrentPosition(onSuccess, onError);
+  
+  function onSuccess(position) {
+		$.getJSON( "http://www3.septa.org/hackathon/locations/get_locations.php?lon="+position.coords.longitude+"&lat="+position.coords.latitude+"&type=rail_stations&radius="+radius+"&callback=?", function( data ) {
+			closest_station = data[0].location_name;
+			$("#next_train_header span").html(closest_station);
+		});
+	}
+	
+  function onError(error) {
+      alert('You got a geolocation error tho: '    + error.code    + '\n' +
+            'message: ' + error.message + '\n');
+	}
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
@@ -65,6 +83,7 @@ angular.module('starter.controllers', [])
         };
  
         var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        map.setCenter(new google.maps.LatLng(39.952638, -75.163995), 13); 
         
         map.mapTypes.set('map_style', styledMap);
     map.setMapTypeId('map_style');
@@ -210,21 +229,7 @@ angular.module('starter.controllers', [])
       return labeled;
     }
   } 
-  
-  var closest_station;
-  
-  navigator.geolocation.getCurrentPosition(onSuccess, onError);
-  
-  function onSuccess(position) {
-		$.getJSON( "http://www3.septa.org/hackathon/locations/get_locations.php?lon="+position.coords.longitude+"&lat="+position.coords.latitude+"&type=rail_stations&radius=20&callback=?", function( data ) {
-			closest_station = data[0].location_name;
-		});
-	}
-	
-  function onError(error) {
-      alert('You got a geolocation error tho: '    + error.code    + '\n' +
-            'message: ' + error.message + '\n');
-	}
+    
   
   $('#plan_fewest_stops').click(function(){
   	  var startSelect = document.getElementById("start");
@@ -245,17 +250,11 @@ angular.module('starter.controllers', [])
 
 .controller('NextTrainController', function($scope, $ionicLoading) {
 	var showNumberOfOptions = 3;
-	var pos;
-	var onSuccess = function(position) {
-		getYourRailStation(position);
-		pos = position;
-	};
+
 	
-	var radius = 20;
-  
-	function getYourRailStation(position) {
-    	$.getJSON( "http://www3.septa.org/hackathon/locations/get_locations.php?lon="+position.coords.longitude+"&lat="+position.coords.latitude+"&type=rail_stations&radius="+radius+"&callback=?", function( data ) {
-			var closest_station = data[0].location_name;
+	
+	getYourRailStation();
+	function getYourRailStation() {
 			$("#next_train_header span").html(closest_station);
 			var url = "http://www3.septa.org/hackathon/Arrivals/"+ closest_station +"/5/";
       
@@ -332,14 +331,9 @@ angular.module('starter.controllers', [])
 					  document.getElementById("southbound_label").innerHTML = "The next "+numberOfOptionsShown+" trains going <b>Southbound</b>"; 
 		          }
 		       });
-			});
     	});
 	};
 
-	function onError(error) {
-      alert('You got a geolocation error tho: '    + error.code    + '\n' +
-            'message: ' + error.message + '\n');
-	}
   
 	function cleanUpDepartTime(time) {
   		time = time.substr(time.length - 14);
@@ -362,8 +356,7 @@ angular.module('starter.controllers', [])
 	  	while (southbound_list.childNodes.length > 2) {
 	  		southbound_list.removeChild(southbound_list.lastChild);
 	  	}
-	    getYourRailStation(pos);
+	    getYourRailStation();
 	});
   
-	navigator.geolocation.getCurrentPosition(onSuccess, onError);  
 });
