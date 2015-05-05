@@ -60,7 +60,7 @@ angular.module('starter.controllers', [])
             center: myLatlng,
             streetViewControl: false,
             disableDefaultUI: true,
-            zoom: 16,
+            zoom: 13,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
  
@@ -70,17 +70,20 @@ angular.module('starter.controllers', [])
     map.setMapTypeId('map_style');
  
     var regLayer = new google.maps.KmlLayer({
-        url: 'http://www.chanmatt.me/regionalrail.kml'
+        url: 'http://www.chanmatt.me/regionalrail.kml',
+        preserveViewport: true
       });
       regLayer.setMap(map);
     
     var bsllayer = new google.maps.KmlLayer({
-        url: 'http://www.chanmatt.me/bsl.kml'
+        url: 'http://www.chanmatt.me/bsl.kml',
+        preserveViewport: true
       });
       bsllayer.setMap(map);
     
     var mfllayer = new google.maps.KmlLayer({
-        url: 'http://www.chanmatt.me/mfl.kml'
+        url: 'http://www.chanmatt.me/mfl.kml',
+        preserveViewport: true
       });
       mfllayer.setMap(map);
  
@@ -138,11 +141,12 @@ angular.module('starter.controllers', [])
             //}, delay); 
           });
         });}
+        x();
         setInterval(x, 10000);  
 })
 
 .controller('PlannerController', function($scope, $ionicLoading) {
- /* $.getJSON("http://www3.septa.org/hackathon/TrainView/?callback=?", function(data) {
+ $.getJSON("http://www3.septa.org/hackathon/TrainView/?callback=?", function(data) {
       //console.log(data); // use data as a generic object 
     });
 
@@ -168,28 +172,14 @@ angular.module('starter.controllers', [])
   
   //console.log(adjacencyList);
 
- /* var findAdjacentEdges = function(node, graph){
-    var out = [];
-    var type = typeof graph; 
-    if (type == "object") {
-      for (var key in graph) {
-        console.log(key);
+  var findAdjacentEdges = function(node, graph){
+      for (var item in graph) {
+      	var obj = graph[item];
+      	var station = Object.keys(obj)[0];
+      	if (station == node) {
+      		return obj[station];
+      	}
       }
-
-    }
-/*
-    $.each(graph, function(key,val){
-      //console.log(graph);
-      console.log(key;
-      if (key == node){
-        console.log(key);
-        for (var adjacent in val){
-          out.push(adjacent);
-        }
-      }
-    });
-      */
- /*   return out;
   }
 
   var q = [];
@@ -198,40 +188,59 @@ angular.module('starter.controllers', [])
   var runBFS = function(graph, pStart, pDest){
     q.push(pStart);
     labeled.push(pStart);
-    while (q.length>0){
+    while (q.length > 0){
       v = q.pop();
       var adjacentEdges = findAdjacentEdges(v, graph);
-      if (adjacentEdges.length >0){
-        for (i = 0; i<adjacentEdges.length; i++){
-        var w = adjacentEdges[i];
-        if (!$.inArray(w, labeled)){
-          q.push(w);
-          labeled.push(w);
-          if ($.inArray(pDest,labeled)){
-            return labeled;
-          }
-        }
+      if (adjacentEdges.length > 0){
+        for (var i = 0; i < adjacentEdges.length; i++){
+        	var w = adjacentEdges[i];
+			if (labeled.indexOf(w) === -1) { //w is not in labeled
+				q.push(w);
+				labeled.push(w);
+				if (labeled.indexOf(pDest) !== -1) {// pDest is in labeled
+					console.log("FUCK");
+					return labeled;
+				}
+			}
+		}
       }
-    }
-    for (var location in labeled){
-      console.log(location)
-    }
-    return labeled;
+      for (var location in labeled){
+     	 console.log(location);
+      }
+      return labeled;
     }
   } 
-
+  
+  var closest_station;
+  
+  navigator.geolocation.getCurrentPosition(onSuccess, onError);
+  
+  function onSuccess(position) {
+		$.getJSON( "http://www3.septa.org/hackathon/locations/get_locations.php?lon="+position.coords.longitude+"&lat="+position.coords.latitude+"&type=rail_stations&radius=20&callback=?", function( data ) {
+			closest_station = data[0].location_name;
+		});
+	}
+	
+  function onError(error) {
+      alert('You got a geolocation error tho: '    + error.code    + '\n' +
+            'message: ' + error.message + '\n');
+	}
+  
   $('#plan_fewest_stops').click(function(){
-      //var start = $("#start option:selected").text();
-      //var dest = $("#destination option:selected").text();
-      var start = "University City";
-      var dest = "30th Street Station";
+  	  var startSelect = document.getElementById("start");
+  	  var destSelect = document.getElementById("dest");
+      var start = startSelect.options[startSelect.selectedIndex].value;
+      var dest = destSelect.options[destSelect.selectedIndex].value;
+      if (start == "Current Location") {
+      	start = closest_station;
+      }
       console.log(json);
       console.log("Start: " + start);
       console.log("Destination: " + dest);
-      //console.log(runBFS(json, start, dest));
+      console.log("Path: "+runBFS(json, start, dest));
       console.log("Adjacent Edges: " + findAdjacentEdges(start, json));
 
-  });*/
+  });
 })
 
 .controller('NextTrainController', function($scope, $ionicLoading) {
@@ -253,100 +262,108 @@ angular.module('starter.controllers', [])
       
 			$.getJSON('http://whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function(data){
 		        var resp = JSON.parse(data.contents);
-		        console.log(data.contents);
-		        console.log(resp);
 		        $.each(resp, function(i, item) {
-		          console.log(item);//array of two, N & S
+		          //item is an array of two, N & S
 		          if (item[0] instanceof Array) {
 		          	
 		          	//SEPTA's API just outputs an empty array instead of an Object if it has no trains going in that direction, therefore we check for an instance of an array
 		            document.getElementById("northbound0").innerHTML = "No trains going Northbound";
 		            
 		          } else {
-		          	
-		          	var firstTrainNorthbound = item[0].Northbound[0];	
-		            document.getElementById("northbound0").innerHTML = "<span class='train_id'>to "+firstTrainNorthbound.destination+"</span><span class='path'> departing at "+firstTrainNorthbound.depart_time;
+					  var firstTrainNorthbound = item[0].Northbound[0];	
+					  document.getElementById("northbound0").innerHTML = "<span class='train_id'>to "+firstTrainNorthbound.destination+"</span><span class='path'> departing at "+cleanUpDepartTime(firstTrainNorthbound.depart_time);
 		            
 		            
-		            //Add a number of optional trains after the next train, the number of which is defined by showNumberOfOptions, keep track of how many are shown with numberOfOptionsShown
-		            var numberOfOptionsShown = 1;
-		            for (var i = 1; i < showNumberOfOptions; i++) {
+					  //Add a number of optional trains after the next train, the number of which is defined by showNumberOfOptions, keep track of how many are shown with numberOfOptionsShown
+					  var numberOfOptionsShown = 1;
+					  for (var i = 1; i < showNumberOfOptions; i++) {
 		            	
-		            	if (item[0].Northbound[i] !== undefined) {
+						  if (item[0].Northbound[i] !== undefined) {
 		            		
-		            		var trainObj = item[0].Northbound[i];
+							  var trainObj = item[0].Northbound[i];
 		            		
-		            		var elementID = "northbound" + i;
+							  var elementID = "northbound" + i;
 		            		
-		            		var newTrainDiv = document.createElement('div');
+							  var newTrainDiv = document.createElement('div');
 							
-							newTrainDiv.setAttribute('id', elementID);
-							newTrainDiv.setAttribute('class', "northbound");
+							  newTrainDiv.setAttribute('id', elementID);
+							  newTrainDiv.setAttribute('class', "northbound");
 							
-							newTrainDiv.innerHTML = "<span class='train_id'>to "+trainObj.destination+"</span><span class='path'> departing at "+trainObj.depart_time;
+							  newTrainDiv.innerHTML = "<span class='train_id'>to "+trainObj.destination+"</span><span class='path'> departing at "+cleanUpDepartTime(trainObj.depart_time);
 							
-							document.getElementById("northbound_list").appendChild(newTrainDiv);
+							  document.getElementById("northbound_list").appendChild(newTrainDiv);
 							
-							numberOfOptionsShown++;
-		            	}
-		            }
-		            document.getElementById("northbound_label").innerHTML = "The next "+numberOfOptionsShown+" trains going <b>Northbound</b>"; 
+							  numberOfOptionsShown++;
+						  }
+					  }
+					  document.getElementById("northbound_label").innerHTML = "The next "+numberOfOptionsShown+" trains going <b>Northbound</b>"; 
 		          
 		          }
 		          if (item[1] instanceof Array) {
 		          
-		            document.getElementById("southbound0").innerHTML = "No trains going Southbound";
+					  document.getElementById("southbound0").innerHTML = "No trains going Southbound";
 		            
 		          } else {
 		          
-		          	var firstTrainSouthbound = item[1].Southbound[0];
-		          	document.getElementById("southbound0").innerHTML = "<span class='train_id'>to "+firstTrainSouthbound.destination+"</span><span class='path'> departing at "+firstTrainSouthbound.depart_time;          
+					  var firstTrainSouthbound = item[1].Southbound[0];
+					  document.getElementById("southbound0").innerHTML = "<span class='train_id'>to "+firstTrainSouthbound.destination+"</span><span class='path'> departing at "+cleanUpDepartTime(firstTrainSouthbound.depart_time);          
 		          
-				  	var numberOfOptionsShown = 1;
-		            for (var i = 1; i < showNumberOfOptions; i++) {
+					  var numberOfOptionsShown = 1;
+					  for (var i = 1; i < showNumberOfOptions; i++) {
 		            	
-		            	if (item[1].Southbound[i] !== undefined) {
+						  if (item[1].Southbound[i] !== undefined) {
 		            		
-		            		var trainObj = item[1].Southbound[i];
+							  var trainObj = item[1].Southbound[i];
 		            		
-		            		var elementID = "southbound" + i;
+							  var elementID = "southbound" + i;
 		            		
-		            		var newTrainDiv = document.createElement('div');
+							  var newTrainDiv = document.createElement('div');
 							
-							newTrainDiv.setAttribute('id', elementID);
-							newTrainDiv.setAttribute('class', "southbound");
+							  newTrainDiv.setAttribute('id', elementID);
+							  newTrainDiv.setAttribute('class', "southbound");
 							
-							newTrainDiv.innerHTML = "<span class='train_id'>to "+trainObj.destination+"</span><span class='path'> departing at "+trainObj.depart_time;
+							  newTrainDiv.innerHTML = "<span class='train_id'>to "+trainObj.destination+"</span><span class='path'> departing at "+cleanUpDepartTime(trainObj.depart_time);
 							
-							document.getElementById("southbound_list").appendChild(newTrainDiv);
+							  document.getElementById("southbound_list").appendChild(newTrainDiv);
 							
-							numberOfOptionsShown++;
-		            	}
-		            }
-		            document.getElementById("southbound_label").innerHTML = "The next "+numberOfOptionsShown+" trains going <b>Southbound</b>"; 
-
-		         }
+							  numberOfOptionsShown++;
+						  }
+					  }
+					  document.getElementById("southbound_label").innerHTML = "The next "+numberOfOptionsShown+" trains going <b>Southbound</b>"; 
+		          }
+		       });
 			});
-	   });
-    });
-  };
+    	});
+	};
 
-  function onError(error) {
+	function onError(error) {
       alert('You got a geolocation error tho: '    + error.code    + '\n' +
             'message: ' + error.message + '\n');
-  }
+	}
   
-  $("#nextTrainRefresh").click(function() {
-  	var northbound_list = document.getElementById("northbound_list");
-  	var southbound_list = document.getElementById("southbound_list");
-  	while (northbound_list.childNodes.length > 2) {
-  		northbound_list.removeChild(northbound_list.lastChild);
-  	}
-  	while (southbound_list.childNodes.length > 2) {
-  		southbound_list.removeChild(southbound_list.lastChild);
-  	}
-    getYourRailStation(pos);
-  });
+	function cleanUpDepartTime(time) {
+  		time = time.substr(time.length - 14);
+  		var PMAM = time.substr(time.length - 2);
+  		var hour = time.substr(0, 2);
+  		if (hour.substr(0, 1) == "0") {
+  			hour = hour.substr(1);
+  		}
+  		var minute = time.substr(3, 2);
+  		return hour+":"+minute+" "+PMAM;
+  		
+	}
   
-  navigator.geolocation.getCurrentPosition(onSuccess, onError);  
+	$("#nextTrainRefresh").click(function() {
+	  	var northbound_list = document.getElementById("northbound_list");
+	  	var southbound_list = document.getElementById("southbound_list");
+	  	while (northbound_list.childNodes.length > 2) {
+	  		northbound_list.removeChild(northbound_list.lastChild);
+	  	}
+	  	while (southbound_list.childNodes.length > 2) {
+	  		southbound_list.removeChild(southbound_list.lastChild);
+	  	}
+	    getYourRailStation(pos);
+	});
+  
+	navigator.geolocation.getCurrentPosition(onSuccess, onError);  
 });
