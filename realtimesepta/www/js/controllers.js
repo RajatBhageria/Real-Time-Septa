@@ -142,7 +142,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlannerController', function($scope, $ionicLoading) {
-  $.getJSON("http://www3.septa.org/hackathon/TrainView/?callback=?", function(data) {
+ /* $.getJSON("http://www3.septa.org/hackathon/TrainView/?callback=?", function(data) {
       //console.log(data); // use data as a generic object 
     });
 
@@ -168,7 +168,7 @@ angular.module('starter.controllers', [])
   
   //console.log(adjacencyList);
 
-  var findAdjacentEdges = function(node, graph){
+ /* var findAdjacentEdges = function(node, graph){
     var out = [];
     var type = typeof graph; 
     if (type == "object") {
@@ -189,7 +189,7 @@ angular.module('starter.controllers', [])
       }
     });
       */
-    return out;
+ /*   return out;
   }
 
   var q = [];
@@ -231,52 +231,103 @@ angular.module('starter.controllers', [])
       //console.log(runBFS(json, start, dest));
       console.log("Adjacent Edges: " + findAdjacentEdges(start, json));
 
-  });
+  });*/
 })
 
 .controller('NextTrainController', function($scope, $ionicLoading) {
-  var pos;
-  var onSuccess = function(position) {
-    getYourRailStation(position);
-    pos = position;
-  };
-
-  var radius = 20;
+	var showNumberOfOptions = 3;
+	var pos;
+	var onSuccess = function(position) {
+		getYourRailStation(position);
+		pos = position;
+	};
+	
+	var radius = 20;
   
-  function getYourRailStation(position) {
-    $.getJSON( "http://www3.septa.org/hackathon/locations/get_locations.php?lon="+position.coords.longitude+"&lat="+position.coords.latitude+"&type=rail_stations&radius="+radius+"&callback=?", function( data ) {
-      var closest_station = data[0].location_name;
-      $("#next_train_header span").html(closest_station);
-      var url = "http://www3.septa.org/hackathon/Arrivals/"+ closest_station +"/5/";
+	function getYourRailStation(position) {
+    	$.getJSON( "http://www3.septa.org/hackathon/locations/get_locations.php?lon="+position.coords.longitude+"&lat="+position.coords.latitude+"&type=rail_stations&radius="+radius+"&callback=?", function( data ) {
+			var closest_station = data[0].location_name;
+			$("#next_train_header span").html(closest_station);
+			var url = "http://www3.septa.org/hackathon/Arrivals/"+ closest_station +"/5/";
       
       
-      $.getJSON('http://whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function(data){
-        var resp = JSON.parse(data.contents);
-        console.log(data.contents);
-        console.log(resp);
-        $.each(resp, function(i, item) {
-          console.log(item);//array of two, N & S
-          if (item[0] instanceof Array) {
-            document.getElementById("northbound").innerHTML = "No trains going Northbound";
-          } else {
-            $.each(item[0], function(i, item) {
-              $.each(item, function(i, item) {
-                document.getElementById("northbound").innerHTML = "<span class='train_id'>#"+item.train_id+"</span><span class='path'> from "+item.origin+" to "+item.destination+", next stop "+item.next_station;
-              });
-            });
-          }
-          if (item[1] instanceof Array) {
-            document.getElementById("northbound").innerHTML = "No trains going Southbound";
-          } else {
-            $.each(item[1], function(i, item) {
-              $.each(item, function(i, item) {
-                document.getElementById("southbound").innerHTML = "<span class='train_id'>#"+item.train_id+"</span><span class='path'> from "+item.origin+" to "+item.destination+", next stop "+item.next_station;
-              });
-            });
-          }
-        });
-      });
-      
+			$.getJSON('http://whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function(data){
+		        var resp = JSON.parse(data.contents);
+		        console.log(data.contents);
+		        console.log(resp);
+		        $.each(resp, function(i, item) {
+		          console.log(item);//array of two, N & S
+		          if (item[0] instanceof Array) {
+		          	
+		          	//SEPTA's API just outputs an empty array instead of an Object if it has no trains going in that direction, therefore we check for an instance of an array
+		            document.getElementById("northbound0").innerHTML = "No trains going Northbound";
+		            
+		          } else {
+		          	
+		          	var firstTrainNorthbound = item[0].Northbound[0];	
+		            document.getElementById("northbound0").innerHTML = "<span class='train_id'>to "+firstTrainNorthbound.destination+"</span><span class='path'> departing at "+firstTrainNorthbound.depart_time;
+		            
+		            
+		            //Add a number of optional trains after the next train, the number of which is defined by showNumberOfOptions, keep track of how many are shown with numberOfOptionsShown
+		            var numberOfOptionsShown = 1;
+		            for (var i = 1; i < showNumberOfOptions; i++) {
+		            	
+		            	if (item[0].Northbound[i] !== undefined) {
+		            		
+		            		var trainObj = item[0].Northbound[i];
+		            		
+		            		var elementID = "northbound" + i;
+		            		
+		            		var newTrainDiv = document.createElement('div');
+							
+							newTrainDiv.setAttribute('id', elementID);
+							newTrainDiv.setAttribute('class', "northbound");
+							
+							newTrainDiv.innerHTML = "<span class='train_id'>to "+trainObj.destination+"</span><span class='path'> departing at "+trainObj.depart_time;
+							
+							document.getElementById("northbound_list").appendChild(newTrainDiv);
+							
+							numberOfOptionsShown++;
+		            	}
+		            }
+		            document.getElementById("northbound_label").innerHTML = "The next "+numberOfOptionsShown+" trains going <b>Northbound</b>"; 
+		          
+		          }
+		          if (item[1] instanceof Array) {
+		          
+		            document.getElementById("southbound0").innerHTML = "No trains going Southbound";
+		            
+		          } else {
+		          
+		          	var firstTrainSouthbound = item[1].Southbound[0];
+		          	document.getElementById("southbound0").innerHTML = "<span class='train_id'>to "+firstTrainSouthbound.destination+"</span><span class='path'> departing at "+firstTrainSouthbound.depart_time;          
+		          
+				  	var numberOfOptionsShown = 1;
+		            for (var i = 1; i < showNumberOfOptions; i++) {
+		            	
+		            	if (item[1].Southbound[i] !== undefined) {
+		            		
+		            		var trainObj = item[1].Southbound[i];
+		            		
+		            		var elementID = "southbound" + i;
+		            		
+		            		var newTrainDiv = document.createElement('div');
+							
+							newTrainDiv.setAttribute('id', elementID);
+							newTrainDiv.setAttribute('class', "southbound");
+							
+							newTrainDiv.innerHTML = "<span class='train_id'>to "+trainObj.destination+"</span><span class='path'> departing at "+trainObj.depart_time;
+							
+							document.getElementById("southbound_list").appendChild(newTrainDiv);
+							
+							numberOfOptionsShown++;
+		            	}
+		            }
+		            document.getElementById("southbound_label").innerHTML = "The next "+numberOfOptionsShown+" trains going <b>Southbound</b>"; 
+
+		         }
+			});
+	   });
     });
   };
 
@@ -286,6 +337,14 @@ angular.module('starter.controllers', [])
   }
   
   $("#nextTrainRefresh").click(function() {
+  	var northbound_list = document.getElementById("northbound_list");
+  	var southbound_list = document.getElementById("southbound_list");
+  	while (northbound_list.childNodes.length > 2) {
+  		northbound_list.removeChild(northbound_list.lastChild);
+  	}
+  	while (southbound_list.childNodes.length > 2) {
+  		southbound_list.removeChild(southbound_list.lastChild);
+  	}
     getYourRailStation(pos);
   });
   
