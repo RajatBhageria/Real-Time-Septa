@@ -16,16 +16,16 @@
 	font-family: Avenir;
 }
 #next_train_header span {
-	color: #7EB0BC;
+	color: #484848;
 	margin-top: 20px;
 	display: inline-block;
 	font-weight: bold;
 }
 .northbound, .southbound {
-	margin-top: 30px;
+	margin-top: 10px;
 	width: 100%;
 	padding: 10px;
-	background: #F3E6C7;
+	background: #f7f7f7;
 	text-align: center;
 	font-size: 20px;
 	font-family: Avenir;
@@ -33,14 +33,9 @@
 h5 {
 	font-size: 20px;
 }
-#nextTrainRefresh {
-	width: 200px;
-	font-size: 30px;
-	padding: 20px;
-	margin: 0 auto;
-	margin-top: 20px;
-	background: #F3E6C7;
+div#southbound_label, div#northbound_label {
 	text-align: center;
+	width: 100%;
 }
 #nextTrainRefresh:hover {
 	cursor: pointer;
