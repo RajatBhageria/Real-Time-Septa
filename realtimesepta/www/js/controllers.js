@@ -201,32 +201,28 @@ angular.module('starter.controllers', [])
       }
   }
 
-  var q = [];
-  var labeled = [];
   var v;
-  var runBFS = function(graph, pStart, pDest){
+  var runBFS = function(graph, pStart, pDest, q){
     q.push(pStart);
-    labeled.push(pStart);
+    path.push(pStart);
     while (q.length > 0){
       v = q.pop();
       var adjacentEdges = findAdjacentEdges(v, graph);
       if (adjacentEdges.length > 0){
         for (var i = 0; i < adjacentEdges.length; i++){
         	var w = adjacentEdges[i];
-			if (labeled.indexOf(w) === -1) { //w is not in labeled
-				q.push(w);
-				labeled.push(w);
-				if (labeled.indexOf(pDest) !== -1) {// pDest is in labeled
-					console.log("FUCK");
-					return labeled;
-				}
-			}
-		}
+          if (w === pDest){
+            console.log(w);
+            break;
+          }
+          else{            
+            runBFS(graph, w, pDest,q);
+            console.log(w);
+          }
+
+		    }
       }
-      for (var location in labeled){
-     	 console.log(location);
-      }
-      return labeled;
+      return path;
     }
   } 
     
@@ -239,11 +235,12 @@ angular.module('starter.controllers', [])
       if (start == "Current Location") {
       	start = closest_station;
       }
-      console.log(json);
-      console.log("Start: " + start);
-      console.log("Destination: " + dest);
-      console.log("Path: "+runBFS(json, start, dest));
-      console.log("Adjacent Edges: " + findAdjacentEdges(start, json));
+      //console.log(json);
+      //console.log("Start: " + start);
+      //console.log("Destination: " + dest);
+      var queue = [];
+      console.log("Path: "+runBFS(json, start, dest, queue));
+      //console.log("Adjacent Edges: " + findAdjacentEdges(start, json));
 
   });
 })
