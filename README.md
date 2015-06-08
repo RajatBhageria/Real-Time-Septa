@@ -1,7 +1,9 @@
 Real Time Septa Tracking
+
 ========================
-NETS 150 UPENN Final Project
-Authors: Rajat Bhageria, Matt Chan, Colin Roberts
+**NETS 150 UPENN Final Project**
+
+**Authors:** Rajat Bhageria, Matt Chan, Colin Roberts
 
 Overview
 -----------
