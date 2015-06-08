@@ -1,6 +1,6 @@
-Real Time Septa
+Real Time Septa | NETS150 UPenn Final Project
 
-Description: An app that creates a virtual graph representation of the SEPTA system and combines it with the SEPTA API to provide useful tools for travelers. 
+Description: An app that creates a virtual graph representation of the SEPTA system (Philadelphia Transit) and combines it with the SEPTA API to provide useful tools for travelers. 
 
 • We created a data scraper to turn the SEPTA map into actionable data, by
 scraping the station list from each of the SEPTA schedules. 
